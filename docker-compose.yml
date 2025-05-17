@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: python_pure_app
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/usr/src/app
+    command: python app/main.py
+
+  tests:
+    build: .
+    container_name: python_pure_tests
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      - PYTHONPATH=/usr/src/app
+    command: pytest tests --maxfail=1 --disable-warnings -q
