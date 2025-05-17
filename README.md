@@ -15,6 +15,3 @@ Ejecutar la app:
 
 ```bash
 docker-compose run app
-
-
-linea nueva de prueba
