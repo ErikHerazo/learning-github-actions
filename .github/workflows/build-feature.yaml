@@ -80,4 +80,4 @@ jobs:
         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
       
       - name: Ejecutar pruebas
-        run: python tests/test_main.py
+        run: pytest
