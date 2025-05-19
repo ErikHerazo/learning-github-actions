@@ -1,4 +1,4 @@
-from app.main import greet
+from app.main import greet, multiplicacion_dos_numeros
 
 def test_greet():
     assert greet("Alice") == "Hello, Alice!"
