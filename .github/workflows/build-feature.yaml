@@ -1,0 +1,75 @@
+# # Nombre del workflow (opcional, pero recomendado para identificarlo en la UI de GitHub)
+# name: Nombre Descriptivo del Workflow
+
+# # Evento(s) que dispararán el workflow
+# on:
+#   # Ejemplo: se dispara en un push a la rama 'main' o 'develop'
+#   push:
+#     branches:
+#       - main
+#       - develop
+#   # Ejemplo: se dispara en un pull request a la rama 'main'
+#   pull_request:
+#     branches:
+#       - main
+#   # Ejemplo: se dispara manualmente desde la UI de GitHub
+#   workflow_dispatch:
+
+# # Trabajos (jobs) que se ejecutarán como parte del workflow
+# jobs:
+#   # Nombre del primer trabajo (puedes tener varios trabajos)
+#   nombre_del_trabajo_1:
+#     # El tipo de máquina virtual donde se ejecutará el trabajo
+#     runs-on: ubuntu-latest # Puedes usar otros como windows-latest, macos-latest
+
+#     # Pasos (steps) que se ejecutarán secuencialmente en este trabajo
+#     steps:
+#       # Paso 1: Generalmente, el primer paso es hacer checkout del código del repositorio
+#       - name: Checkout del código
+#         uses: actions/checkout@v4 # 'uses' indica que se usará una acción predefinida
+
+#       # Paso 2: Ejecutar un comando de shell
+#       - name: Ejecutar un script
+#         run: echo "Hola desde el trabajo 1"
+
+#       # Paso 3: Usar otra acción (ejemplo: configurar Node.js)
+#       - name: Configurar Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20' # Parámetros para la acción 'setup-node'
+
+#   # Nombre del segundo trabajo (se puede ejecutar en paralelo o depender de otro)
+#   nombre_del_trabajo_2:
+#     runs-on: ubuntu-latest
+#     # Ejemplo de dependencia: este trabajo solo se ejecuta si 'nombre_del_trabajo_1' fue exitoso
+#     needs: nombre_del_trabajo_1
+#     steps:
+#       - name: Otro comando
+#         run: echo "Hola desde el trabajo 2, después del trabajo 1"
+
+
+name: Build and Test Feature Branch
+
+on:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  build-feature:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Mensaje de log
+        run: echo "Pulling and checking out from git repository"
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Ejecutar pruebas
+        run: python tests/test_main.py
